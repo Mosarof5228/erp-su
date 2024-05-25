@@ -3,12 +3,16 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import auth from "../../firebase/firebase.config";
 import { useState } from "react";
+import { FaEye, FaEyeSlash  } from "react-icons/fa";
+
+
 
 
 
 const Signup = () => {
 const [registerError,setRegisterError]=useState('');
 const [registerSuccess,setRegisterSuccess]=useState('');
+const [showPassword,setShowPassword]=useState(false);
 
     const handleSignUp = (event) => {
         event.preventDefault()
@@ -62,8 +66,18 @@ const [registerSuccess,setRegisterSuccess]=useState('');
                     <input type="text" placeholder="Enter Your Name" name="name" className="input input-bordered  input-lg w-full " />
                     <h2 className="text-2xl font-semibold">Email Address</h2>
                     <input type="email" placeholder="Enter Your Email" name="email" className="input input-bordered  input-lg w-full " />
-                    <h2 className="text-2xl font-semibold">Password</h2>
-                    <input type="password" placeholder="Enter Your Password" name="pass" className="input input-bordered input-lg w-full " required />
+                    <h2 className="text-2xl inline font-semibold">Password</h2>
+                    <input type={showPassword?'text':"password"} placeholder="Enter Your Password" name="pass" className="input input-bordered input-lg w-full " required />
+
+
+
+                    <span  onClick={()=>setShowPassword(!showPassword)} className="cursor-pointer ">
+                       <span className="text-3xl absolute mt-9 ml-[-50px]">
+                         {
+                            showPassword?<FaEyeSlash></FaEyeSlash>:<FaEye></FaEye>
+                        }
+                       </span>
+                    </span>
                 </div>
 
 
@@ -76,9 +90,11 @@ const [registerSuccess,setRegisterSuccess]=useState('');
             }
               </div>
               <div className="text-center text-2xl">
-                {
+             
+                    {
                     registerSuccess && <h2 className="text-green-400 font-bold">{registerSuccess}</h2>
                 }
+                
               </div>
             </div>
           
