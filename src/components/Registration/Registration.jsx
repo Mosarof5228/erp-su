@@ -2,26 +2,38 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import auth from "../../firebase/firebase.config";
+import { useState } from "react";
 
 
 
 const Signup = () => {
-
+const [registerError,setRegisterError]=useState('');
+const [registerSuccess,setRegisterSuccess]=useState('');
 
     const handleSignUp = (event) => {
         event.preventDefault()
         const form = event.target;
         const email = form.email.value;
         const password = form.pass.value;
+        if(password.length<6){
+            setRegisterError("Password Should be at least six character or longer");
+            return;
+        }
+        //reset error
+        setRegisterError('');
+        setRegisterSuccess('');
+       
         // const name = form.name.value;
         createUserWithEmailAndPassword(auth,email,password)
         .then(result=>{
             const createdUser=result.user;
             console.log(createdUser);
+            setRegisterSuccess("user Created Succesfully");
 
         })
         .catch(error=>{
             console.error(error);
+            setRegisterError(error.message);
         })
         
 
@@ -46,16 +58,27 @@ const Signup = () => {
                     <h2 className="text-2xl font-semibold">Email Address</h2>
                     <input type="email" placeholder="Enter Your Email" name="email" className="input input-bordered  input-lg w-full " />
                     <h2 className="text-2xl font-semibold">Password</h2>
-                    <input type="password" placeholder="Enter Your Password" name="pass" className="input input-bordered input-lg w-full " />
+                    <input type="password" placeholder="Enter Your Password" name="pass" className="input input-bordered input-lg w-full " required />
                 </div>
 
 
-                <input className="color-[#fff] text-2xl text-white w-full mt-4 bg-[#0060AF] h-14 text-center rounded-md" type="submit" value="SignUp" />
+                <input className="color-[#fff] text-2xl text-white w-full mt-4 bg-[#0060AF] h-14 text-center rounded-md" type="submit" value="SignUp" required />
 
                 <h2 className="text-center font-serif text-xs my-4">Already have an account <Link className="text-red-400" to='/login'>Please Login</Link></h2>
+              <div className="text-center font-bold">
+              {
+                registerError && <p className="text-red-500">{registerError}</p>
+            }
+              </div>
+              <div className="text-center text-2xl">
+                {
+                    registerSuccess && <h2 className="text-green-400 font-bold">{registerSuccess}</h2>
+                }
+              </div>
             </div>
-
+          
         </form>
+
 
     );
 };
