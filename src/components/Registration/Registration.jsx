@@ -1,5 +1,7 @@
 
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import auth from "../../firebase/firebase.config";
 
 
 
@@ -11,8 +13,16 @@ const Signup = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.pass.value;
-        const name = form.name.value;
-        console.log(name, email, password)
+        // const name = form.name.value;
+        createUserWithEmailAndPassword(auth,email,password)
+        .then(result=>{
+            const createdUser=result.user;
+            console.log(createdUser);
+
+        })
+        .catch(error=>{
+            console.error(error);
+        })
         
 
     }
