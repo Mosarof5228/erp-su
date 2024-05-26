@@ -15,13 +15,18 @@ const [registerSuccess,setRegisterSuccess]=useState('');
         const form = event.target;
         const email = form.email.value;
         const password = form.pass.value;
+        setRegisterError('');
+        setRegisterSuccess('');
         if(password.length<6){
             setRegisterError("Password Should be at least six character or longer");
             return;
         }
+        else if(!/[A-Z]/.test(password)){
+            setRegisterError("Password Should at least 1 Uppercase");
+            return;
+        }
         //reset error
-        setRegisterError('');
-        setRegisterSuccess('');
+       
        
         // const name = form.name.value;
         createUserWithEmailAndPassword(auth,email,password)
