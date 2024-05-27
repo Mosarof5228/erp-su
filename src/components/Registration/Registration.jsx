@@ -50,7 +50,7 @@ const [showPassword,setShowPassword]=useState(false);
     return (
 
         <form onSubmit={handleSignUp} className="my-8 rounded-xl">
-            <div style={{ boxShadow: "0 .5rem 1rem rgba(0,0,0,.15)", }} className="px-10 py-14  border  w-11/12 mx-auto rounded-lg" >
+            <div style={{ boxShadow: "0 .5rem 1rem rgba(0,0,0,.15)", }} className="px-10 py-14  border  w-8/12 mx-auto rounded-lg" >
                 <div className="flex flex-col items-center leading-[50px] justify-center">
                     <div className="avatar">
                         <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
@@ -66,13 +66,13 @@ const [showPassword,setShowPassword]=useState(false);
                     <input type="text" placeholder="Enter Your Name" name="name" className="input input-bordered  input-lg w-full " />
                     <h2 className="text-2xl font-semibold">Email Address</h2>
                     <input type="email" placeholder="Enter Your Email" name="email" className="input input-bordered  input-lg w-full " />
-                    <h2 className="text-2xl inline font-semibold">Password</h2>
+                    <h2 className="text-2xl font-semibold">Password</h2>
                     <input type={showPassword?'text':"password"} placeholder="Enter Your Password" name="pass" className="input input-bordered input-lg w-full " required />
 
 
 
                     <span  onClick={()=>setShowPassword(!showPassword)} className="cursor-pointer ">
-                       <span className="text-3xl absolute mt-9 ml-[-50px]">
+                       <span className="text-3xl absolute mt-9 ml-[-50px]"> 
                          {
                             showPassword?<FaEyeSlash></FaEyeSlash>:<FaEye></FaEye>
                         }
@@ -98,6 +98,16 @@ const [showPassword,setShowPassword]=useState(false);
               </div>
             </div>
           
+           
+
+            
+
+
+
+
+
+
+            
         </form>
 
 
