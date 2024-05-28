@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -6,6 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 const Login = () => {
   const [logedSuccess, setLogedSuccess] = useState("");
   const [logedError, setLogedError] = useState("");
+  const emailRef=useRef(null);
   const auth = getAuth();
   const [showPassword, setShowPassword] = useState(false);
   const handleLogin = (event) => {
@@ -28,6 +29,16 @@ const Login = () => {
         setLogedError(error.message);
       });
   };
+
+  const handleForgetPassword=()=>{
+    const email=emailRef.current.value;
+    if(!email){
+      alert("give me email");
+      return
+    }
+   
+    console.log("Email",emailRef.current.value);
+  }
   return (
     <form onSubmit={handleLogin} className="my-8 rounded-xl">
       <div
@@ -80,6 +91,7 @@ const Login = () => {
             <input
               type="email"
               name="email"
+              ref={emailRef}
               className="grow "
               placeholder="Email"
             />
@@ -102,6 +114,9 @@ const Login = () => {
               {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
             </span>
           </div>
+        </div>
+        <div className="mt-2">
+        <a onClick={handleForgetPassword} className="link link-hover link-primary" href="#">Forget Password?</a>
         </div>
         <input
           className="color-[#fff] text-2xl text-white w-full mt-4 bg-[#0060AF] h-14 text-center rounded-md"
