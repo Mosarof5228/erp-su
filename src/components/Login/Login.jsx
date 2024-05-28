@@ -1,12 +1,16 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const Login = () => {
   const [logedSuccess, setLogedSuccess] = useState("");
   const [logedError, setLogedError] = useState("");
-  const emailRef=useRef(null);
+  const emailRef = useRef(null);
   const auth = getAuth();
   const [showPassword, setShowPassword] = useState(false);
   const handleLogin = (event) => {
@@ -30,15 +34,26 @@ const Login = () => {
       });
   };
 
-  const handleForgetPassword=()=>{
-    const email=emailRef.current.value;
-    if(!email){
-      alert("give me email");
-      return
+  const handleForgetPassword = () => {
+    const email = emailRef.current.value;
+    if (!email) {
+      console.log("Please provide an email", emailRef.current.value);
+      return;
+    } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
+      console.log("Please write a valid emial");
+      return;
     }
-   
-    console.log("Email",emailRef.current.value);
-  }
+    //send password
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert("Please check your email");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+
+    console.log("Email", emailRef.current.value);
+  };
   return (
     <form onSubmit={handleLogin} className="my-8 rounded-xl">
       <div
@@ -116,7 +131,13 @@ const Login = () => {
           </div>
         </div>
         <div className="mt-2">
-        <a onClick={handleForgetPassword} className="link link-hover link-primary" href="#">Forget Password?</a>
+          <a
+            onClick={handleForgetPassword}
+            className="link link-hover link-primary"
+            href="#"
+          >
+            Forget Password?
+          </a>
         </div>
         <input
           className="color-[#fff] text-2xl text-white w-full mt-4 bg-[#0060AF] h-14 text-center rounded-md"
