@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import { Link } from "react-router-dom";
 import auth from "../../firebase/firebase.config";
@@ -18,6 +19,7 @@ const Signup = () => {
     const email = form.email.value;
     const password = form.pass.value;
     const accepted = form.terms.checked;
+    const name = form.name.value;
     console.log(accepted);
     setRegisterError("");
     setRegisterSuccess("");
@@ -37,6 +39,17 @@ const Signup = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         const createdUser = result.user;
+        //updateProfile
+        updateProfile(result.user, {
+          displayName: name,
+          photoURL: "https://example.com/jane-q-user/profile.jpg",
+        })
+          .then(() => {
+            console.log("profile updated");
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
 
         console.log(createdUser);
         setRegisterSuccess("user Created Succesfully");
